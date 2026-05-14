@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import { Heart, Eye, Share2, ShoppingCart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { motion } from "framer-motion";
 
 function SkeletonDetails() {
   return (
@@ -57,11 +56,7 @@ export default function ItemDetails() {
       ) : (
         <div className="grid lg:grid-cols-2 gap-10 lg:gap-16">
           {/* Image */}
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5 }}
-          >
+          <div data-aos="fade-right">
             <div className="relative rounded-3xl overflow-hidden bg-card border border-border/50">
               <img
                 src={item?.nftImage}
@@ -80,15 +75,10 @@ export default function ItemDetails() {
                 </button>
               </div>
             </div>
-          </motion.div>
+          </div>
 
           {/* Details */}
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-            className="flex flex-col"
-          >
+          <div data-aos="fade-left" data-aos-delay="150" className="flex flex-col">
             <div className="flex items-center gap-3 mb-3">
               <span className="text-xs font-semibold text-primary border border-primary/30 rounded-full px-3 py-1">#{item?.tag}</span>
               <div className="flex items-center gap-3 text-sm text-muted-foreground">
@@ -153,7 +143,7 @@ export default function ItemDetails() {
                 Buy Now
               </Button>
             </div>
-          </motion.div>
+          </div>
         </div>
       )}
     </div>

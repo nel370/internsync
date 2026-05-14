@@ -1,6 +1,5 @@
 import React from "react";
 import { Wallet, ImagePlus, Tag } from "lucide-react";
-import { motion } from "framer-motion";
 
 const steps = [
   {
@@ -26,12 +25,10 @@ export default function LandingIntro() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid sm:grid-cols-3 gap-8">
           {steps.map((step, i) => (
-            <motion.div
+            <div
               key={step.title}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.15 }}
+              data-aos="fade-up"
+              data-aos-delay={i * 150}
               className="text-center p-6"
             >
               <div className="w-16 h-16 mx-auto rounded-2xl bg-primary/10 flex items-center justify-center mb-5">
@@ -39,7 +36,7 @@ export default function LandingIntro() {
               </div>
               <h3 className="text-base font-bold text-foreground mb-2">{step.title}</h3>
               <p className="text-sm text-muted-foreground leading-relaxed">{step.description}</p>
-            </motion.div>
+            </div>
           ))}
         </div>
       </div>

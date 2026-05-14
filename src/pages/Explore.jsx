@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import { Heart, Clock } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
-import { motion } from "framer-motion";
 
 function useCountdown(expiryDate) {
   const [timeLeft, setTimeLeft] = useState("");
@@ -132,14 +131,9 @@ export default function Explore() {
           {loading
             ? Array.from({ length: 8 }).map((_, i) => <SkeletonCard key={i} />)
             : sortedNfts.slice(0, visibleCount).map((nft, i) => (
-                <motion.div
-                  key={nft.id}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: i * 0.05 }}
-                >
+                <div key={nft.id} data-aos="fade-up" data-aos-delay={i * 60}>
                   <ExploreCard nft={nft} />
-                </motion.div>
+                </div>
               ))}
         </div>
 

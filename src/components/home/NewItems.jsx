@@ -101,7 +101,11 @@ export default function NewItems() {
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {loading
             ? Array.from({ length: 4 }).map((_, i) => <SkeletonCard key={i} />)
-            : nfts.slice(0, 8).map((nft) => <NftNewCard key={nft.id} nft={nft} />)}
+            : nfts.slice(0, 8).map((nft, i) => (
+                <div key={nft.id} data-aos="fade-up" data-aos-delay={i * 80}>
+                  <NftNewCard nft={nft} />
+                </div>
+              ))}
         </div>
       </div>
     </section>

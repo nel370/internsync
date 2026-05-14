@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import { motion } from "framer-motion";
 import SectionHeader from "@/components/shared/SectionHeader";
 
 function SkeletonSeller() {
@@ -37,13 +36,7 @@ export default function TopSellers() {
           {loading
             ? Array.from({ length: 12 }).map((_, i) => <SkeletonSeller key={i} />)
             : sellers.map((seller, i) => (
-                <motion.div
-                  key={seller.id}
-                  initial={{ opacity: 0, y: 15 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: i * 0.04 }}
-                >
+                <div key={seller.id} data-aos="fade-up" data-aos-delay={i * 40}>
                   <Link
                     to="/author"
                     className="group flex items-center gap-3 bg-card border border-border/50 rounded-xl p-3 hover:border-primary/30 transition-all"
@@ -63,7 +56,7 @@ export default function TopSellers() {
                       <p className="text-xs text-muted-foreground">{seller.price} ETH</p>
                     </div>
                   </Link>
-                </motion.div>
+                </div>
               ))}
         </div>
       </div>
