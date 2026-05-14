@@ -1,13 +1,11 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Slider from "react-slick";
+import axios from "axios";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import { generateCollections } from "@/lib/nftData";
 import SectionHeader from "@/components/shared/SectionHeader";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-
-const collections = generateCollections(8);
 
 function PrevArrow({ onClick }) {
   return (
@@ -47,37 +45,64 @@ const sliderSettings = {
   ],
 };
 
+function SkeletonCard() {
+  return (
+    <div className="px-3">
+      <div className="bg-card rounded-2xl border border-border/50 overflow-hidden animate-pulse">
+        <div className="aspect-[4/3] bg-muted" />
+        <div className="relative px-4 pb-4 pt-8">
+          <div className="absolute -top-6 left-1/2 -translate-x-1/2 w-12 h-12 rounded-full bg-muted border-4 border-card" />
+          <div className="h-3.5 bg-muted rounded mx-auto w-3/4 mt-1" />
+          <div className="h-3 bg-muted rounded mx-auto w-1/2 mt-2" />
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function HotCollections() {
+  const [collections, setCollections] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    axios
+      .get("https://us-central1-nft-cloud-functions.cloudfunctions.net/hotCollections")
+      .then((res) => setCollections(res.data))
+      .finally(() => setLoading(false));
+  }, []);
+
   return (
     <section className="py-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <SectionHeader title="Hot Collections" />
         <div className="relative px-6">
           <Slider {...sliderSettings}>
-            {collections.map((col) => (
-              <div key={col.id} className="px-3">
-                <Link to="/explore" className="group block">
-                  <div className="bg-card rounded-2xl border border-border/50 overflow-hidden transition-all hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5">
-                    <div className="aspect-[4/3] overflow-hidden">
-                      <img
-                        src={col.image}
-                        alt={col.title}
-                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                      />
-                    </div>
-                    <div className="relative px-4 pb-4 pt-8">
-                      <img
-                        src={col.authorImage}
-                        alt="Author"
-                        className="absolute -top-6 left-1/2 -translate-x-1/2 w-12 h-12 rounded-full border-4 border-card object-cover"
-                      />
-                      <h3 className="text-sm font-bold text-foreground text-center">{col.title}</h3>
-                      <p className="text-xs text-muted-foreground text-center mt-1">{col.code}</p>
-                    </div>
+            {loading
+              ? Array.from({ length: 4 }).map((_, i) => <SkeletonCard key={i} />)
+              : collections.map((col) => (
+                  <div key={col.id} className="px-3">
+                    <Link to="/explore" className="group block">
+                      <div className="bg-card rounded-2xl border border-border/50 overflow-hidden transition-all hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5">
+                        <div className="aspect-[4/3] overflow-hidden">
+                          <img
+                            src={col.nftImage}
+                            alt={col.title}
+                            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                          />
+                        </div>
+                        <div className="relative px-4 pb-4 pt-8">
+                          <img
+                            src={col.creatorImage}
+                            alt="Author"
+                            className="absolute -top-6 left-1/2 -translate-x-1/2 w-12 h-12 rounded-full border-4 border-card object-cover"
+                          />
+                          <h3 className="text-sm font-bold text-foreground text-center">{col.title}</h3>
+                          <p className="text-xs text-muted-foreground text-center mt-1">{col.code}</p>
+                        </div>
+                      </div>
+                    </Link>
                   </div>
-                </Link>
-              </div>
-            ))}
+                ))}
           </Slider>
         </div>
       </div>
