@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { Heart, Clock } from "lucide-react";
@@ -79,6 +79,13 @@ function SkeletonCard() {
   );
 }
 
+const FILTER_OPTIONS = [
+  { value: "default", label: "Default" },
+  { value: "price_low_to_high", label: "Price, Low to High" },
+  { value: "price_high_to_low", label: "Price, High to Low" },
+  { value: "likes_high_to_low", label: "Most Liked" },
+];
+
 export default function Explore() {
   const [nfts, setNfts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -86,19 +93,19 @@ export default function Explore() {
   const [visibleCount, setVisibleCount] = useState(8);
 
   useEffect(() => {
+    setLoading(true);
+    setVisibleCount(8);
+    const url =
+      filter === "default"
+        ? "https://us-central1-nft-cloud-functions.cloudfunctions.net/explore"
+        : `https://us-central1-nft-cloud-functions.cloudfunctions.net/explore?filter=${filter}`;
     axios
-      .get("https://us-central1-nft-cloud-functions.cloudfunctions.net/explore")
+      .get(url)
       .then((res) => setNfts(res.data))
       .finally(() => setLoading(false));
-  }, []);
+  }, [filter]);
 
-  const sortedNfts = useMemo(() => {
-    const list = [...nfts];
-    if (filter === "price_low") list.sort((a, b) => a.price - b.price);
-    if (filter === "price_high") list.sort((a, b) => b.price - a.price);
-    if (filter === "most_liked") list.sort((a, b) => b.likes - a.likes);
-    return list;
-  }, [nfts, filter]);
+  const sortedNfts = nfts;
 
   return (
     <>
@@ -114,10 +121,9 @@ export default function Explore() {
               <SelectValue placeholder="Sort by" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="default">Default</SelectItem>
-              <SelectItem value="price_low">Price, Low to High</SelectItem>
-              <SelectItem value="price_high">Price, High to Low</SelectItem>
-              <SelectItem value="most_liked">Most Liked</SelectItem>
+              {FILTER_OPTIONS.map((opt) => (
+                <SelectItem key={opt.value} value={opt.value}>{opt.label}</SelectItem>
+              ))}
             </SelectContent>
           </Select>
         </div>
