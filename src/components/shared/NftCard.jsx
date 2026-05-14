@@ -15,7 +15,7 @@ export default function NftCard({ nft, showCountdown = false }) {
           />
           {/* Author badge */}
           <Link
-            to="/author"
+            to={nft.authorId ? `/author?author=${nft.authorId}` : "/author"}
             className="absolute top-3 left-3 w-9 h-9 rounded-full border-2 border-card overflow-hidden hover:scale-110 transition-transform"
             onClick={(e) => e.stopPropagation()}
           >

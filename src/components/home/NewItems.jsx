@@ -60,7 +60,7 @@ function NftNewCard({ nft }) {
             className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
           />
           <Link
-            to="/author"
+            to={nft.authorId ? `/author?author=${nft.authorId}` : "/author"}
             onClick={(e) => e.stopPropagation()}
             className="absolute top-3 left-3 w-9 h-9 rounded-full border-2 border-card overflow-hidden hover:scale-110 transition-transform"
           >
