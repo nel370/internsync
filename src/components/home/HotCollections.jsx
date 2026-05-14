@@ -92,7 +92,7 @@ export default function HotCollections() {
                         </div>
                         <div className="relative px-4 pb-4 pt-8">
                           <img
-                            src={col.creatorImage}
+                            src={col.authorImage}
                             alt="Author"
                             className="absolute -top-6 left-1/2 -translate-x-1/2 w-12 h-12 rounded-full border-4 border-card object-cover"
                           />
