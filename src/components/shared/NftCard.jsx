@@ -4,7 +4,7 @@ import { Heart, Clock } from "lucide-react";
 
 export default function NftCard({ nft, showCountdown = false }) {
   return (
-    <Link to="/item-details" className="group block">
+    <Link to={`/item-details?nftId=${nft.nftId}`} className="group block">
       <div className="bg-card rounded-2xl border border-border/50 overflow-hidden transition-all duration-300 hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5 hover:-translate-y-1">
         {/* Image */}
         <div className="relative aspect-square overflow-hidden">
