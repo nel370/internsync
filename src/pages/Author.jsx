@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { Heart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Copy, Check, UserPlus } from "lucide-react";
-import { motion } from "framer-motion";
+
 
 function SkeletonProfile() {
   return (
@@ -50,6 +50,7 @@ export default function Author() {
   const [loading, setLoading] = useState(true);
   const [copied, setCopied] = useState(false);
   const [following, setFollowing] = useState(false);
+  const [followerCount, setFollowerCount] = useState(null);
 
   const urlParams = new URLSearchParams(window.location.search);
   const authorId = urlParams.get("author");
@@ -58,7 +59,10 @@ export default function Author() {
     const url = authorId
       ? `https://us-central1-nft-cloud-functions.cloudfunctions.net/authors?author=${authorId}`
       : "https://us-central1-nft-cloud-functions.cloudfunctions.net/authors";
-    axios.get(url).then((res) => setAuthor(res.data)).finally(() => setLoading(false));
+    axios.get(url).then((res) => {
+      setAuthor(res.data);
+      setFollowerCount(res.data.followers);
+    }).finally(() => setLoading(false));
   }, [authorId]);
 
   const handleCopy = () => {
@@ -99,10 +103,16 @@ export default function Author() {
               </button>
             </div>
 
-            <p className="text-sm text-muted-foreground mt-3">{author?.followers} followers</p>
+            <p className="text-sm text-muted-foreground mt-3">{followerCount} followers</p>
 
             <Button
-              onClick={() => setFollowing(!following)}
+              onClick={() => {
+                setFollowing((prev) => {
+                  const nowFollowing = !prev;
+                  setFollowerCount((c) => c + (nowFollowing ? 1 : -1));
+                  return nowFollowing;
+                });
+              }}
               className={`mt-4 rounded-full px-6 gap-2 ${
                 following
                   ? "bg-secondary text-foreground hover:bg-secondary/80"
@@ -132,14 +142,9 @@ export default function Author() {
                   </div>
                 ))
               : author?.nftCollection?.map((nft, i) => (
-                  <motion.div
-                    key={nft.id}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: i * 0.05 }}
-                  >
+                  <div key={nft.id} data-aos="fade-up" data-aos-delay={i * 50}>
                     <NftItem nft={nft} />
-                  </motion.div>
+                  </div>
                 ))}
           </div>
         </div>
