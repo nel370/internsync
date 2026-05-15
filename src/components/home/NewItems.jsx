@@ -2,7 +2,49 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { Heart, Clock } from "lucide-react";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import SectionHeader from "@/components/shared/SectionHeader";
+
+function PrevArrow({ onClick }) {
+  return (
+    <button
+      onClick={onClick}
+      className="absolute left-[-18px] top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-card border border-border/50 flex items-center justify-center text-muted-foreground hover:text-primary hover:border-primary/50 transition-all shadow-md"
+    >
+      <ChevronLeft className="w-5 h-5" />
+    </button>
+  );
+}
+
+function NextArrow({ onClick }) {
+  return (
+    <button
+      onClick={onClick}
+      className="absolute right-[-18px] top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-card border border-border/50 flex items-center justify-center text-muted-foreground hover:text-primary hover:border-primary/50 transition-all shadow-md"
+    >
+      <ChevronRight className="w-5 h-5" />
+    </button>
+  );
+}
+
+const sliderSettings = {
+  dots: true,
+  infinite: true,
+  speed: 500,
+  slidesToShow: 4,
+  slidesToScroll: 1,
+  prevArrow: <PrevArrow />,
+  nextArrow: <NextArrow />,
+  dotsClass: "slick-dots !bottom-[-32px]",
+  responsive: [
+    { breakpoint: 1024, settings: { slidesToShow: 3 } },
+    { breakpoint: 768, settings: { slidesToShow: 2 } },
+    { breakpoint: 480, settings: { slidesToShow: 1 } },
+  ],
+};
 
 function useCountdown(expiryDate) {
   const [timeLeft, setTimeLeft] = useState("");
@@ -95,17 +137,21 @@ export default function NewItems() {
   }, []);
 
   return (
-    <section className="py-20 bg-secondary/20">
+    <section className="py-20 pb-28 bg-secondary/20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <SectionHeader title="New Items" />
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {loading
-            ? Array.from({ length: 4 }).map((_, i) => <SkeletonCard key={i} />)
-            : nfts.slice(0, 8).map((nft, i) => (
-                <div key={nft.id} data-aos="fade-up" data-aos-delay={i * 80}>
-                  <NftNewCard nft={nft} />
-                </div>
-              ))}
+        <div className="relative px-6">
+          <Slider {...sliderSettings}>
+            {loading
+              ? Array.from({ length: 4 }).map((_, i) => (
+                  <div key={i} className="px-3"><SkeletonCard /></div>
+                ))
+              : nfts.slice(0, 8).map((nft, i) => (
+                  <div key={nft.id} className="px-3">
+                    <NftNewCard nft={nft} />
+                  </div>
+                ))}
+          </Slider>
         </div>
       </div>
     </section>
