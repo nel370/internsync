@@ -27,8 +27,9 @@ export default function LandingIntro() {
           {steps.map((step, i) => (
             <div
               key={step.title}
-              data-aos="fade-up"
+              data-aos="flip-left"
               data-aos-delay={i * 150}
+              data-aos-duration="700"
               className="text-center p-6"
             >
               <div className="w-16 h-16 mx-auto rounded-2xl bg-primary/10 flex items-center justify-center mb-5">

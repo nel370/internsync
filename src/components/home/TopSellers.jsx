@@ -31,12 +31,12 @@ export default function TopSellers() {
   return (
     <section className="py-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <SectionHeader title="Top Sellers" />
+        <div data-aos="fade-right" data-aos-duration="600"><SectionHeader title="Top Sellers" /></div>
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4">
           {loading
             ? Array.from({ length: 12 }).map((_, i) => <SkeletonSeller key={i} />)
             : sellers.map((seller, i) => (
-                <div key={seller.id} data-aos="fade-up" data-aos-delay={i * 40}>
+                <div key={seller.id} data-aos="fade-up" data-aos-delay={i * 50} data-aos-duration="500">
                   <Link
                     to="/author"
                     className="group flex items-center gap-3 bg-card border border-border/50 rounded-xl p-3 hover:border-primary/30 transition-all"

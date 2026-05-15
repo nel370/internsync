@@ -74,7 +74,7 @@ export default function HotCollections() {
   return (
     <section className="py-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <SectionHeader title="Hot Collections" />
+        <div data-aos="fade-down" data-aos-duration="600"><SectionHeader title="Hot Collections" /></div>
         <div className="relative px-6">
           <Slider {...sliderSettings}>
             {loading

@@ -13,7 +13,7 @@ export default function HeroLanding() {
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 sm:py-32">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           {/* Left */}
-          <div data-aos="fade-right">
+          <div data-aos="fade-right" data-aos-duration="800">
             <div className="inline-flex items-center gap-2 bg-primary/10 border border-primary/20 rounded-full px-4 py-1.5 mb-6">
               <Sparkles className="w-4 h-4 text-primary" />
               <span className="text-xs font-medium text-primary">Ultraverse Market</span>
@@ -40,7 +40,7 @@ export default function HeroLanding() {
           </div>
 
           {/* Right — Featured NFT */}
-          <div data-aos="fade-left" data-aos-delay="200" className="hidden lg:block">
+          <div data-aos="zoom-in" data-aos-delay="300" data-aos-duration="900" className="hidden lg:block">
             <div className="relative">
               <div className="absolute -inset-4 bg-gradient-to-r from-primary/20 to-accent/20 rounded-3xl blur-2xl" />
               <div className="relative bg-card border border-border/50 rounded-3xl overflow-hidden">
